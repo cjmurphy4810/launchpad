@@ -66,6 +66,79 @@
   .gate-error { color: #f85149; font-size: 13px; min-height: 18px; }
   #app { display: none; max-width: 1100px; margin: 0 auto; padding: 32px 20px; }
   #app.visible { display: block; }
+
+  h1.lp-title { font-size: 22px; margin-bottom: 4px; }
+  p.lp-subtitle { color: var(--text-dim); margin-top: 0; margin-bottom: 32px; font-size: 14px; }
+  section.lp-section { margin-bottom: 36px; }
+  h2.lp-section-title {
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-dim);
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 8px;
+    margin-bottom: 16px;
+  }
+  div.lp-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 16px;
+  }
+  div.lp-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  div.lp-card-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
+  h3.lp-card-name { margin: 0; font-size: 15px; }
+  span.lp-badge {
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: rgba(88,166,255,0.15);
+    color: var(--accent);
+    white-space: nowrap;
+  }
+  span.lp-badge-warn { background: rgba(210,153,34,0.15); color: var(--warn); }
+  p.lp-card-desc { color: var(--text-dim); font-size: 13px; margin: 0; flex-grow: 1; }
+  div.lp-card-actions { display: flex; gap: 8px; align-items: center; }
+  a.lp-btn {
+    flex-grow: 1;
+    text-align: center;
+    padding: 8px 12px;
+    background: var(--accent-dim);
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    font-size: 13px;
+  }
+  a.lp-btn:hover { background: var(--accent); }
+  a.lp-icon-link {
+    color: var(--text-dim);
+    text-decoration: none;
+    font-size: 13px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 8px 10px;
+  }
+  a.lp-icon-link:hover { color: var(--text); border-color: var(--accent); }
+  code.lp-cmd {
+    display: block;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 8px;
+    font-size: 12px;
+    color: var(--accent);
+    cursor: pointer;
+    word-break: break-all;
+  }
+  code.lp-cmd:hover { border-color: var(--accent); }
+  span.lp-copy-hint { font-size: 11px; color: var(--text-dim); }
 </style>
 </head>
 <body>
@@ -130,6 +203,106 @@ function initGate() {
   document.getElementById("gate-input").addEventListener("keydown", (e) => {
     if (e.key === "Enter") submitGate();
   });
+}
+
+const PROJECTS = [
+  // Live Apps (Fly.io)
+  { category: "Live Apps (Fly.io)", name: "Human Workforce AI Platform API", desc: "Multi-agent research pipeline generating AI Executive Briefs.", url: "https://hwai-platform-api.fly.dev", github: "https://github.com/cjmurphy4810/human-workforce-ai-platform", status: "active" },
+  { category: "Live Apps (Fly.io)", name: "Jellypod Prompt Queue", desc: "Entry queue for submitting long-form content to Jellypod for AI podcast generation.", url: "https://jellypod-prompt-queue.fly.dev", github: "https://github.com/cjmurphy4810/jellypod-prompt-queue", status: "active" },
+  { category: "Live Apps (Fly.io)", name: "AIGP Slide Narrator", desc: "AI-powered slide narrator and training coach for AIGP certification content.", url: "https://aigp-slide-narrator.fly.dev", github: null, status: "suspended" },
+  { category: "Live Apps (Fly.io)", name: "Resiliency Testing Orchestrator — API", desc: "OOR-First BCP testing simulator backend for the Appian RTO app.", url: "https://rto-api.fly.dev", github: "https://github.com/cjmurphy4810/Resiliency-Testing-Orchestrator", status: "suspended" },
+  { category: "Live Apps (Fly.io)", name: "Resiliency Testing Orchestrator — UI", desc: "Streamlit frontend for the Resiliency Testing Orchestrator.", url: "https://rto-ui.fly.dev", github: "https://github.com/cjmurphy4810/Resiliency-Testing-Orchestrator", status: "suspended" },
+  { category: "Live Apps (Fly.io)", name: "Entitlement Quality Monitor Utility", desc: "Monitors and remediates entitlement quality issues for the Appian EQM app.", url: "https://eqm-utility.fly.dev", github: "https://github.com/cjmurphy4810/Entitlement-Quality-Monitor-Utility", status: "suspended" },
+  { category: "Live Apps (Fly.io)", name: "PBL Evaluator", desc: "Frontend SPA for evaluating Project-Based Learning projects.", url: "https://pbl-evaluator.fly.dev", github: "https://github.com/cjmurphy4810/Demo-PBL-Evaluator", status: "suspended" },
+
+  // Sites & Portals
+  { category: "Sites & Portals", name: "Human Workforce Training Portal", desc: "Training hub and learning finder for The Human Workforce.", url: "https://cjmurphy4810.github.io/human-workforce-training/", github: "https://github.com/cjmurphy4810/human-workforce-training", status: "active" },
+  { category: "Sites & Portals", name: "Human Workforce Consulting Site", desc: "Marketing site for Human Workforce Consulting services.", url: "https://human-workforce-consulting.vercel.app", github: "https://github.com/cjmurphy4810/human-workforce-consulting", status: "active" },
+  { category: "Sites & Portals", name: "Human Workforce Vault", desc: "AI-powered intelligence report analyzing 186+ podcast episodes.", url: "https://cjmurphy4810.github.io/human-workforce-vault/", github: "https://github.com/cjmurphy4810/human-workforce-vault", status: "active" },
+  { category: "Sites & Portals", name: "Human Workforce Analytics Dashboard", desc: "YouTube analytics dashboard for The Human Workforce podcast channel.", url: "https://github.com/cjmurphy4810/human-workforce-analytics", github: "https://github.com/cjmurphy4810/human-workforce-analytics", status: "active" },
+
+  // Local-Only Tools
+  { category: "Local-Only Tools", name: "Layman's Spending Assessment", desc: "Local personal finance dashboard with RocketMoney CSV ingestion + Claude chat.", github: "https://github.com/cjmurphy4810/laymans-spending-assessment", localCommand: "./install.sh && ./run.sh" },
+  { category: "Local-Only Tools", name: "Household Financial Dashboard", desc: "Private local Streamlit app for household spending analysis (Amazon/AMEX/BofA).", github: null, localCommand: "./run.sh" },
+  { category: "Local-Only Tools", name: "Knowledge Evolution Layer", desc: "Local AI knowledge management system routing queries across LLM providers.", github: "https://github.com/cjmurphy4810/knowledge-evolution-layer", localCommand: "docker compose up" },
+
+  // Appian Tenant
+  { category: "Appian Tenant", name: "Resiliency Testing Appian Tenant", desc: "Shared Appian tenant hosting the Resiliency Testing Orchestrator and EQM apps.", url: "https://resiliencytesting.appiancloud.com", github: null, status: "active" },
+];
+
+function escapeHtml(str) {
+  const div = document.createElement("div");
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+function cardHtml(p) {
+  const badges = [];
+  if (p.status === "suspended") {
+    badges.push(`<span class="lp-badge lp-badge-warn">⏳ may take ~10s to wake up</span>`);
+  }
+
+  const githubLink = p.github
+    ? `<a class="lp-icon-link" href="${p.github}" target="_blank" rel="noopener">GitHub</a>`
+    : "";
+
+  let actions;
+  if (p.localCommand) {
+    actions = `
+      <code class="lp-cmd" onclick="copyCommand(this, '${p.localCommand.replace(/'/g, "\\'")}')">${escapeHtml(p.localCommand)}</code>
+      <div class="lp-card-actions">${githubLink}<span class="lp-copy-hint">click command to copy</span></div>
+    `;
+  } else {
+    actions = `
+      <div class="lp-card-actions">
+        <a class="lp-btn" href="${p.url}" target="_blank" rel="noopener">Open</a>
+        ${githubLink}
+      </div>
+    `;
+  }
+
+  return `
+    <div class="lp-card">
+      <div class="lp-card-header">
+        <h3 class="lp-card-name">${escapeHtml(p.name)}</h3>
+        ${badges.join("")}
+      </div>
+      <p class="lp-card-desc">${escapeHtml(p.desc)}</p>
+      ${actions}
+    </div>
+  `;
+}
+
+function copyCommand(el, cmd) {
+  navigator.clipboard.writeText(cmd);
+  const original = el.textContent;
+  el.textContent = "Copied!";
+  setTimeout(() => { el.textContent = original; }, 1200);
+}
+
+function renderApp() {
+  const categories = ["Live Apps (Fly.io)", "Sites & Portals", "Local-Only Tools", "Appian Tenant"];
+  const app = document.getElementById("app");
+
+  let html = `
+    <h1 class="lp-title">Launchpad</h1>
+    <p class="lp-subtitle">One place to launch every tool.</p>
+  `;
+
+  for (const cat of categories) {
+    const items = PROJECTS.filter(p => p.category === cat);
+    if (items.length === 0) continue;
+    html += `
+      <section class="lp-section">
+        <h2 class="lp-section-title">${escapeHtml(cat)}</h2>
+        <div class="lp-grid">
+          ${items.map(cardHtml).join("")}
+        </div>
+      </section>
+    `;
+  }
+
+  app.innerHTML = html;
 }
 
 initGate();
